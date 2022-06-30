@@ -17,5 +17,9 @@ from django.urls import path, include
 from instagram import views
 
 urlpatterns = [
-    path('post_publish/', views.InstagramPostPublishViewSet.as_view({'post': 'post_publish'}), name='instagram-post-publish',)
+    path(
+        'post_publish/',
+        views.InstagramPostPublishViewSet.as_view({'post': 'post_publish'}),
+        name='instagram-post-publish'
+    )
 ]

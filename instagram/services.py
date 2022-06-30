@@ -1,8 +1,9 @@
+from typing import Dict
 import requests
 from django.conf import settings
 
 
-def get_facebook_page_id(access_token: str):
+def get_facebook_page_id(access_token: str) -> Dict:
     """
      Get facebook page id 
      https://developers.facebook.com/docs/instagram-api/getting-started
@@ -34,7 +35,7 @@ def get_facebook_page_id(access_token: str):
         }
 
 
-def get_instagram_user_id(page_id, access_token: str):
+def get_instagram_user_id(page_id: int, access_token: str) -> Dict:
     """
     Get instagram user id 
     https://developers.facebook.com/docs/instagram-api/getting-started
@@ -69,7 +70,12 @@ def get_instagram_user_id(page_id, access_token: str):
         }
 
 
-def get_media_container_id(insta_user_id, access_token, image_url, caption=None):
+def get_media_container_id(
+    insta_user_id: int,
+    access_token: str,
+    image_url: str,
+    caption=None
+    ) -> Dict:
     """
     Create and get media container id
     https://developers.facebook.com/docs/instagram-api/guides/content-publishing
@@ -108,7 +114,11 @@ def get_media_container_id(insta_user_id, access_token, image_url, caption=None)
         }
 
 
-def instagram_media_publish(insta_user_id, access_token, media_container_id):
+def instagram_media_publish(
+    insta_user_id: int,
+    access_token: str,
+    media_container_id: int
+    ) -> Dict:
     """
     Publishing the created container
     https://developers.facebook.com/docs/instagram-api/guides/content-publishing
