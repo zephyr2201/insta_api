@@ -1,9 +1,11 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from instagram import LevelStates
+
 
 class Niche(models.Model):
-    name = models.CharField(max_length=120)
+    name = models.CharField(max_length=120, unique=True)
 
     class Meta:
         verbose_name = _('Ниша')
@@ -14,7 +16,7 @@ class Niche(models.Model):
 
 
 class Rubric(models.Model):
-    name = models.CharField(max_length=120)
+    name = models.CharField(max_length=120, unique=True)
 
     class Meta:
         verbose_name = _('Рубрика')
@@ -25,7 +27,7 @@ class Rubric(models.Model):
 
 
 class Content(models.Model):
-    name = models.CharField(max_length=120)
+    name = models.CharField(max_length=120, unique=True)
 
     class Meta:
         verbose_name = _('Контент')
@@ -36,21 +38,35 @@ class Content(models.Model):
 
 
 class Text(models.Model):
+    level = models.CharField(
+        _('Уровень'),
+        max_length=255,
+        choices=LevelStates.choices,
+        null=True
+    )
     rubric = models.ForeignKey(
         verbose_name=_('Рубрика'),
         to=Rubric,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name='text',
+        null=True,
     )
     niche = models.ForeignKey(
         verbose_name=_('Ниша'),
         to=Niche,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name='text',
+        null=True,
     )
     content = models.ForeignKey(
         verbose_name=_('Контент'),
         to=Content,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name='text',
+        null=True,
     )
+    body = models.TextField(
+        _('Текст для поста'),
+        null=True,
+        blank=True
+        )

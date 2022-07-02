@@ -1,13 +1,12 @@
-from typing import Dict
 import requests
+from typing import Dict
 from django.conf import settings
 
 
 def get_facebook_page_id(access_token: str) -> Dict:
     """
-     Get facebook page id 
-     https://developers.facebook.com/docs/instagram-api/getting-started
-
+    Get facebook page id
+    https://developers.facebook.com/docs/instagram-api/getting-started
     """
     endpoint = 'me/accounts'
     params = {'access_token': access_token}
@@ -37,9 +36,8 @@ def get_facebook_page_id(access_token: str) -> Dict:
 
 def get_instagram_user_id(page_id: int, access_token: str) -> Dict:
     """
-    Get instagram user id 
+    Get instagram user id
     https://developers.facebook.com/docs/instagram-api/getting-started
-
     """
     endpoint = '{page_id}'
     params = {
@@ -71,15 +69,14 @@ def get_instagram_user_id(page_id: int, access_token: str) -> Dict:
 
 
 def get_media_container_id(
-    insta_user_id: int,
-    access_token: str,
-    image_url: str,
-    caption=None
-    ) -> Dict:
+        insta_user_id: int,
+        access_token: str,
+        image_url: str,
+        caption=None
+        ) -> Dict:
     """
     Create and get media container id
     https://developers.facebook.com/docs/instagram-api/guides/content-publishing
-
     """
     endpoint = '{insta_user_id}/media'
     params = {
@@ -115,14 +112,13 @@ def get_media_container_id(
 
 
 def instagram_media_publish(
-    insta_user_id: int,
-    access_token: str,
-    media_container_id: int
-    ) -> Dict:
+        insta_user_id: int,
+        access_token: str,
+        media_container_id: int
+        ) -> Dict:
     """
     Publishing the created container
     https://developers.facebook.com/docs/instagram-api/guides/content-publishing
-
     """
     endpoint = '{insta_user_id}/media_publish'
     params = {
@@ -155,14 +151,21 @@ def instagram_media_publish(
         }
 
 
-def test_post_publish(data: dict): # TODO:  Переписать под селери таски
+def test_post_publish(data: dict):  # Test function
     page_data = get_facebook_page_id(data.get('access_token'))
     if not page_data['success']:
         raise Exception
-    user_data = get_instagram_user_id(page_id=page_data['page_id'], access_token=data.get('access_token'))
+    user_data = get_instagram_user_id(
+        page_id=page_data['page_id'],
+        access_token=data.get('access_token')
+    )
     if not user_data['success']:
         raise Exception
     media_data = get_media_container_id(user_data['instagram_user_id'], **data)
     if not user_data['success']:
         raise Exception
-    post_data = instagram_media_publish(user_data['instagram_user_id'], data.get('access_token'), media_data['media_container_id'])
+    instagram_media_publish(
+        user_data['instagram_user_id'],
+        data.get('access_token'),
+        media_data['media_container_id']
+    )

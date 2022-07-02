@@ -1,0 +1,1 @@
+from instagram.tests.fixtures import *  # noqa F401

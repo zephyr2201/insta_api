@@ -13,7 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import path, include
+from django.urls import path
 from instagram import views
 
 urlpatterns = [
@@ -21,5 +21,10 @@ urlpatterns = [
         'post_publish/',
         views.InstagramPostPublishViewSet.as_view({'post': 'post_publish'}),
         name='instagram-post-publish'
+    ),
+    path(
+        'generate-text/',
+        views.GenerateTextViewSet.as_view({'post': 'generate_text'}),
+        name='post-text-generate'
     )
 ]
