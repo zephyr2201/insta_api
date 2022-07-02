@@ -9,8 +9,3 @@ def test_get_post_text(db, get_post_request_data, text):
         assert text.rubric.name == get_post_request_data['rubric']
         assert text.niche.name == get_post_request_data['niche']
         assert text.content.name == get_post_request_data['content']
-
-
-def test_post_api_view(db, test_client, get_post_request_data, text):
-    response = test_client.post('/api/generate-text/', get_post_request_data)
-    assert response.status_code == 201
