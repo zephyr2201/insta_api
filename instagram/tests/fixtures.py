@@ -1,5 +1,4 @@
 import pytest
-from rest_framework.test import APIClient
 
 from instagram.factories import TextFactory
 from instagram import LevelStates
@@ -26,8 +25,3 @@ def text(db):
         post_text = TextFactory()
         post_text.level = level[0]
         post_text.save()
-
-
-@pytest.fixture
-def test_client(db):
-    return APIClient()
