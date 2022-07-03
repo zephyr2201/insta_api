@@ -22,6 +22,14 @@ def get_post_text(request_data: Dict) -> List:
     return post_text
 
 
+def categories() -> Dict:
+    data = {}
+    data['niches'] = [niche.name for niche in Niche.objects.all()]
+    data['rubrics'] = [rubric.name for rubric in Rubric.objects.all()]
+    data['contents'] = [content.name for content in Content.objects.all()]
+    return data
+
+
 def generate_text(
         text: str,
         content: str,

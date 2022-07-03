@@ -3,12 +3,13 @@ from typing import List
 from ninja import NinjaAPI
 
 from instagram.schemas import (
+    CategoriesSchema,
     GenerateTextSchema,
     InstagramPostPublishSchema,
     TextReadSchema,
 )
 from instagram.facebook_graph import test_post_publish
-from instagram.post_services import get_post_text
+from instagram.post_services import categories, get_post_text
 
 
 api = NinjaAPI()
@@ -26,3 +27,8 @@ def generate_text(request, data: GenerateTextSchema):
     request_data = data.json()
     post_text = get_post_text(json.loads(request_data))
     return post_text
+
+
+@api.get("get-categories/", response=CategoriesSchema)
+def get_categories(request):
+    return categories()

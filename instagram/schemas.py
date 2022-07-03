@@ -23,3 +23,9 @@ class TextReadSchema(ModelSchema):
             "level",
             "body"
         ]
+
+
+class CategoriesSchema(Schema):
+    niches: list
+    rubrics: list
+    contents: list

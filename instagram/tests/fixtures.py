@@ -1,6 +1,6 @@
 import pytest
 
-from instagram.factories import TextFactory
+from instagram.factories import ContentFactory, NicheFactory, RubricFactory, TextFactory
 from instagram import LevelStates
 
 
@@ -25,3 +25,10 @@ def text(db):
         post_text = TextFactory()
         post_text.level = level[0]
         post_text.save()
+
+
+@pytest.fixture
+def generate_categories(db):
+    RubricFactory()
+    NicheFactory()
+    ContentFactory()
