@@ -18,7 +18,8 @@ def get_post_text(request_data: Dict) -> List:
                 content=content
             )
         )
-        post_text.append(random.choice(text_list))
+        if text_list:
+            post_text.append(random.choice(text_list))
     return post_text
 
 
