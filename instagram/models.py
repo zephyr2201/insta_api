@@ -38,6 +38,10 @@ class Content(models.Model):
 
 
 class Text(models.Model):
+    class Meta:
+        verbose_name = _('Текст')
+        verbose_name_plural = _('Текст')
+
     level = models.CharField(
         _('Уровень'),
         max_length=255,
@@ -70,3 +74,37 @@ class Text(models.Model):
         null=True,
         blank=True
         )
+
+
+class PostImage(models.Model):
+    class Meta:
+        verbose_name = _('Изображение')
+        verbose_name_plural = _('Изображений')
+
+    rubric = models.ForeignKey(
+        verbose_name=_('Рубрика'),
+        to=Rubric,
+        on_delete=models.SET_NULL,
+        related_name='images',
+        null=True,
+    )
+    niche = models.ForeignKey(
+        verbose_name=_('Ниша'),
+        to=Niche,
+        on_delete=models.SET_NULL,
+        related_name='images',
+        null=True,
+    )
+    content = models.ForeignKey(
+        verbose_name=_('Контент'),
+        to=Content,
+        on_delete=models.SET_NULL,
+        related_name='images',
+        null=True,
+    )
+
+    file = models.ImageField(
+        _('Фото'),
+        null=True,
+        blank=True
+    )
