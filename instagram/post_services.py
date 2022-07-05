@@ -1,26 +1,42 @@
 import random
 from typing import Dict, List
 
-from instagram.models import Content, Niche, Rubric, Text
+from instagram.models import (
+    Content,
+    Niche,
+    PostImage,
+    Rubric,
+    Text
+)
 
 
 def get_post_text(request_data: Dict) -> List:
     post_text = []
-    rubric = Rubric.objects.get(name=request_data['rubric'])
-    niche = Niche.objects.get(name=request_data['niche'])
-    content = Content.objects.get(name=request_data['content'])
     for level in request_data['level']:
         text_list = list(
             Text.objects.filter(
                 level=level,
-                rubric=rubric,
-                niche=niche,
-                content=content
+                rubric__name=request_data['rubric'],
+                niche__name=request_data['niche'],
+                content__name=request_data['content']
             )
         )
         if text_list:
             post_text.append(random.choice(text_list))
     return post_text
+
+
+def get_post_image(request_data: Dict) -> List:
+    image_list = list(
+        PostImage.objects.filter(
+            rubric__name=request_data['rubric'],
+            niche__name=request_data['niche'],
+            content__name=request_data['content']
+        )
+    )
+    if image_list:
+        return random.choice(image_list)
+    return ""
 
 
 def categories() -> Dict:

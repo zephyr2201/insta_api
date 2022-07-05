@@ -1,6 +1,12 @@
-from instagram.models import Text
+from instagram.models import PostImage, Text
 
 from ninja import Schema, ModelSchema
+
+
+class BaseGenerateSchema(Schema):
+    rubric: str
+    niche: str
+    content: str
 
 
 class InstagramPostPublishSchema(Schema):
@@ -9,11 +15,12 @@ class InstagramPostPublishSchema(Schema):
     access_token: str
 
 
-class GenerateTextSchema(Schema):
+class GenerateTextSchema(BaseGenerateSchema):
     level: list
-    rubric: str
-    niche: str
-    content: str
+
+
+class GeneratePostImageSchema(BaseGenerateSchema):
+    ...
 
 
 class TextReadSchema(ModelSchema):
@@ -22,6 +29,14 @@ class TextReadSchema(ModelSchema):
         model_fields = [
             "level",
             "body"
+        ]
+
+
+class PostImageReadSchema(ModelSchema):
+    class Config:
+        model = PostImage
+        model_fields = [
+            'file'
         ]
 
 

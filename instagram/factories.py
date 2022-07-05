@@ -1,7 +1,7 @@
 import faker
 from factory.django import DjangoModelFactory
 
-from instagram.models import Content, Niche, Rubric, Text
+from instagram.models import Content, Niche, PostImage, Rubric, Text
 
 
 fake = faker.Faker(['ru-RU'])
@@ -50,3 +50,26 @@ class TextFactory(DjangoModelFactory):
         kwargs['niche'] = niche
         kwargs['content'] = content
         return super(TextFactory, cls).create(**kwargs)
+
+
+class PostImageFactory(DjangoModelFactory):
+    class Meta:
+        model = PostImage
+
+    file = ''
+
+    @classmethod
+    def create(cls, **kwargs):
+        rubric = Rubric.objects.last()
+        if not rubric:
+            rubric = RubricFactory()
+        niche = Niche.objects.last()
+        if not niche:
+            niche = NicheFactory()
+        content = Content.objects.last()
+        if not content:
+            content = ContentFactory()
+        kwargs['rubric'] = rubric
+        kwargs['niche'] = niche
+        kwargs['content'] = content
+        return super(PostImageFactory, cls).create(**kwargs)
