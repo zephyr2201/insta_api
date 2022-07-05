@@ -24,20 +24,20 @@ def post_publish(request, data: InstagramPostPublishSchema):
     return {'success': True}
 
 
-@api.post("generate-text/", response=List[TextReadSchema])
+@api.post("text/", response=List[TextReadSchema])
 def generate_text(request, data: GenerateTextSchema):
     request_data = data.json()
     post_text = get_post_text(json.loads(request_data))
     return post_text
 
 
-@api.post("generate-post-image/", response=PostImageReadSchema)
+@api.post("post-image/", response=PostImageReadSchema)
 def generate_post_image(request, data: GeneratePostImageSchema):
     request_data = data.json()
     post_image = get_post_image(json.loads(request_data))
     return post_image
 
 
-@api.get("get-categories/", response=CategoriesSchema)
+@api.get("categories/", response=CategoriesSchema)
 def get_categories(request):
     return categories()
