@@ -39,11 +39,47 @@ def get_post_image(request_data: Dict) -> List:
     return ""
 
 
+def get_niches():
+    niches = []
+    for niche in Niche.objects.all():
+        niches.append(
+            {
+                'name': niche.name,
+                'icon': niche.icon.url if niche.icon else ''
+            }
+            )
+    return niches
+
+
+def get_contents():
+    contents = []
+    for content in Content.objects.all():
+        contents.append(
+            {
+                'name': content.name,
+                'icon': content.icon.url if content.icon else ''
+            }
+            )
+    return contents
+
+
+def get_rubrics():
+    rubrics = []
+    for rubric in Rubric.objects.all():
+        rubrics.append(
+            {
+                'name': rubric.name,
+                'icon': ''
+            }
+            )
+    return rubrics
+
+
 def categories() -> Dict:
     data = {}
-    data['niches'] = [niche.name for niche in Niche.objects.all()]
-    data['rubrics'] = [rubric.name for rubric in Rubric.objects.all()]
-    data['contents'] = [content.name for content in Content.objects.all()]
+    data['niches'] = get_niches()
+    data['rubrics'] = get_rubrics()
+    data['contents'] = get_contents()
     return data
 
 

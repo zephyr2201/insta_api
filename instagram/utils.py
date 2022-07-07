@@ -1,7 +1,5 @@
 import os
 
-from instagram.models import Content, Niche, Rubric
-
 
 def validate_file_extension(value):
     ext = os.path.splitext(value.name)[1]
@@ -10,13 +8,5 @@ def validate_file_extension(value):
         raise Exception('Unsupported file extension.')
 
 
-def create_rubric(name: str):
-    Rubric.objects.create(name=name)
-
-
-def create_content(name: str):
-    Content.objects.create(name=name)
-
-
-def create_niche(name: str):
-    Niche.objects.create(name=name)
+def icon_file_path(instance, filename):
+    return f"icons/{filename}"

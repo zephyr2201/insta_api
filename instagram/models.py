@@ -2,10 +2,17 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from instagram import LevelStates
+from instagram.utils import icon_file_path
 
 
 class Niche(models.Model):
     name = models.CharField(max_length=120, unique=True)
+    icon = models.ImageField(
+        _('Иконка'),
+        null=True,
+        blank=True,
+        upload_to=icon_file_path,
+    )
 
     class Meta:
         verbose_name = _('Ниша')
@@ -28,6 +35,12 @@ class Rubric(models.Model):
 
 class Content(models.Model):
     name = models.CharField(max_length=120, unique=True)
+    icon = models.ImageField(
+        _('Иконка'),
+        null=True,
+        blank=True,
+        upload_to=icon_file_path,
+    )
 
     class Meta:
         verbose_name = _('Контент')
