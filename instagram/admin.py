@@ -11,10 +11,13 @@ from instagram.models import (
 
 class TextAdmin(admin.ModelAdmin):
     list_display = ('niche', 'rubric', 'content')
+    list_filter = ('niche', 'rubric', 'content')
 
 
 class PostImageAdmin(admin.ModelAdmin):
     list_display = ('niche', 'rubric', 'content')
+    list_filter = ('niche', 'rubric', 'content')
+
 
 
 admin.site.register(Niche)
