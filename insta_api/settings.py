@@ -127,6 +127,11 @@ STATIC_ROOT = os.getenv("STATIC_ROOT", os.path.join(BASE_DIR, "static"))
 MEDIA_URL = os.getenv("MEDIA_URL", "/api/media/")
 MEDIA_ROOT = os.getenv("MEDIA_ROOT", os.path.join(BASE_DIR, "media"))
 
+
+CELERY_BROKER_URL = "redis://0.0.0.0:6379"
+CELERY_RESULT_BACKEND = "redis://redis/1"
+
+
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
