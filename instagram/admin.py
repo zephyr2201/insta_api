@@ -19,7 +19,6 @@ class PostImageAdmin(admin.ModelAdmin):
     list_filter = ('niche', 'rubric', 'content')
 
 
-
 admin.site.register(Niche)
 admin.site.register(Rubric)
 admin.site.register(Content)
