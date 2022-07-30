@@ -1,24 +1,26 @@
 import random
 from typing import Dict, List
+from instagram import LevelStates
 
 from instagram.models import (
     Content,
     Niche,
+    Post,
     PostImage,
     Rubric,
     Text
 )
 
 
-def get_post_text(request_data: Dict) -> List:
+def get_post_text(levels: list, niche, rubric, content):
     post_text = []
-    for level in request_data['level']:
+    for level in levels:
         text_list = list(
             Text.objects.filter(
                 level=level,
-                rubric__name=request_data['rubric'],
-                niche__name=request_data['niche'],
-                content__name=request_data['content']
+                rubric__name=rubric,
+                niche__name=niche,
+                content__name=content
             )
         )
         if text_list:
@@ -26,12 +28,12 @@ def get_post_text(request_data: Dict) -> List:
     return post_text
 
 
-def get_post_image(request_data: Dict) -> List:
+def get_post_image(niche, rubric, content) -> List:
     image_list = list(
         PostImage.objects.filter(
-            rubric__name=request_data['rubric'],
-            niche__name=request_data['niche'],
-            content__name=request_data['content']
+            rubric__name=rubric,
+            niche__name=niche,
+            content__name=content
         )
     )
     if image_list:
@@ -40,46 +42,22 @@ def get_post_image(request_data: Dict) -> List:
 
 
 def get_niches():
-    niches = []
-    for niche in Niche.objects.all():
-        niches.append(
-            {
-                'name': niche.name,
-                'icon': niche.icon.url if niche.icon else ''
-            }
-            )
-    return niches
+    return Niche.objects.all()
 
 
 def get_contents():
-    contents = []
-    for content in Content.objects.all():
-        contents.append(
-            {
-                'name': content.name,
-                'icon': content.icon.url if content.icon else ''
-            }
-            )
-    return contents
+    return Content.objects.all()
 
 
 def get_rubrics():
-    rubrics = []
-    for rubric in Rubric.objects.all():
-        rubrics.append(
-            {
-                'name': rubric.name,
-                'icon': ''
-            }
-            )
-    return rubrics
+    return Rubric.objects.all()
 
 
 def categories() -> Dict:
     data = {}
-    data['niches'] = get_niches()
-    data['rubrics'] = get_rubrics()
-    data['contents'] = get_contents()
+    data['niches'] = list(get_niches())
+    data['rubrics'] = list(get_rubrics())
+    data['contents'] = list(get_contents())
     return data
 
 
@@ -100,3 +78,23 @@ def generate_text(
         content=content,
         body=text
     )
+
+
+def generate_instagram_posts(niche_name: str):
+    niche = Niche.objects.get(name=niche_name)
+    rubric = Rubric.objects.order_by('?')[0]
+    content = Content.objects.order_by('?')[0]
+    levels = [level[0] for level in LevelStates.choices]
+    post_text = get_post_text(
+        levels,
+        niche.name,
+        rubric.name,
+        content.name,
+    )
+    post_image = get_post_image(
+        niche.name,
+        rubric.name,
+        content.name,
+    )
+    print(post_image)
+    print(post_text)

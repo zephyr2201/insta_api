@@ -88,6 +88,8 @@ class Text(models.Model):
         blank=True
         )
 
+    def __str__(self) -> str:
+        return self.level
 
 class PostImage(models.Model):
     class Meta:
@@ -120,4 +122,46 @@ class PostImage(models.Model):
         _('Фото'),
         null=True,
         blank=True
+    )
+
+
+class Post(models.Model):
+
+    class Meta:
+        verbose_name = _('Пост')
+        verbose_name_plural = _('Посты')
+
+    image = models.ForeignKey(
+        verbose_name=_('Фото'),
+        to=PostImage,
+        on_delete=models.SET_NULL,
+        related_name='posts',
+        null=True,
+    )
+    rubric = models.ForeignKey(
+        verbose_name=_('Рубрика'),
+        to=Rubric,
+        on_delete=models.SET_NULL,
+        related_name='posts',
+        null=True,
+    )
+    niche = models.ForeignKey(
+        verbose_name=_('Ниша'),
+        to=Niche,
+        on_delete=models.SET_NULL,
+        related_name='posts',
+        null=True,
+    )
+    content = models.ForeignKey(
+        verbose_name=_('Контент'),
+        to=Content,
+        on_delete=models.SET_NULL,
+        related_name='posts',
+        null=True,
+    )
+    text = models.ManyToManyField(
+        verbose_name=_('Текст'),
+        to=Text,
+        related_name='posts',
+        null=True,
     )
